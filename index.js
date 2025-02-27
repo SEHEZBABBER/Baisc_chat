@@ -8,6 +8,8 @@ main().then(()=>console.log("connection succesful"))
 async function main() {
     await mongoose.connect('mongodb://127.0.0.1:27017/whatsapp');
 }
+app.use(express.urlencoded({extended : true}));
+app.use(express.json());
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
 app.listen(8080,()=>{
@@ -19,4 +21,14 @@ app.get('/',(req,res)=>{
 app.get('/chats',async(req,res)=>{
     let data = await Chat.find();
     res.render('chats',{data});
+})
+app.get('/add',(req,res)=>{
+    res.render('add');
+})
+app.post('/add',async(req,res)=>{
+    let obj = req.body;
+    obj.date = new Date();
+    console.log(obj);
+    await Chat.create(obj);
+    res.redirect('/chats');
 })
