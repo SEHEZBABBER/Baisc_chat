@@ -43,7 +43,7 @@
                         <p class="msg">"<%= obj.msg %>"</p>
                         <p class="date"><%= obj.date.toDateString() %></p>
                         <button class="btn btn-warning btn-sm">Edit</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
+                        <form action="http://localhost:8080/delete/<%=obj.id%>?_method=DELETE" method="post"><button class="btn btn-danger btn-sm">Delete</button></form>
                     </div>
                 </div>
             <% } %>

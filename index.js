@@ -3,6 +3,9 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const Chat = require('./modules/Chat.js');
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+;
 main().then(()=>console.log("connection succesful"))
 .catch(err => console.log(err));
 async function main() {
@@ -28,7 +31,11 @@ app.get('/add',(req,res)=>{
 app.post('/add',async(req,res)=>{
     let obj = req.body;
     obj.date = new Date();
-    console.log(obj);
     await Chat.create(obj);
     res.redirect('/chats');
+})
+app.delete('/delete/:id',async(req,res)=>{
+    let {id} = req.params;
+    await Chat.deleteOne({_id : id});
+    res.redirect('/chats')
 })
