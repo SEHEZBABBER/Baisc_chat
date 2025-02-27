@@ -39,3 +39,15 @@ app.delete('/delete/:id',async(req,res)=>{
     await Chat.deleteOne({_id : id});
     res.redirect('/chats')
 })
+app.get('/edit/:id',async(req,res)=>{
+    let {id} = req.params;
+    let data = await Chat.find({_id : id});
+    console.log(data);
+    res.render('edit',{obj:data[0]});
+})
+app.patch('/chats',async(req,res)=>{
+    let obj = req.body;
+    obj.date = new Date();
+    await Chat.replaceOne({_id:obj.id},obj);
+    res.redirect('/chats');
+})
